@@ -1,0 +1,465 @@
+---
+title: "DATA 621"
+author: "Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, Sunny Mehta, Vinayak Patel"
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  html_document:
+    code_folding: hide
+    df_print: paged
+    highlight: tango
+    theme: united
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+# HOMEWORK #1
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+## load library
+if (!require("corrplot")) install.packages("corrplot")
+if (!require("psych")) install.packages("psych")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("gridExtra")) install.packages("gridExtra")
+if (!require("car")) install.packages("car")
+if (!require("mice")) install.packages("mice")
+if (!require("caret")) install.packages("caret") 
+if (!require("dplyr")) install.packages("dplyr")
+if (!require("GGally")) install.packages("GGally")
+if (!require("knitr")) install.packages("knitr")
+if (!require("Amelia")) install.packages("Amelia") #missing data
+if (!require("MASS")) install.packages("MASS")
+if (!require("VIM")) install.packages("VIM")
+
+knitr::opts_chunk$set(echo = TRUE)
+options("scipen" = 10)
+
+
+```
+
+## Overview: 
+
+In this homework assignment, you will explore, analyze and model a data set containing approximately 2200
+records. Each record represents a professional baseball team from the years 1871 to 2006 inclusive. Each
+record has the performance of the team for the given year, with all of the statistics adjusted to match the
+performance of a 162 game season.
+Your objective is to build a multiple linear regression model on the training data to predict the number of
+wins for the team. You can only use the variables given to you (or variables that you derive from the variables
+provided).
+
+## Deliverables:
+* A write-up submitted in PDF format. Your write-up should have four sections. Each one is described below. You may assume you are addressing me as a fellow data scientist, so do not need to shy away
+from technical details.
+* Assigned predictions (the number of wins for the team) for the evaluation data set.
+* Include your R statistical programming code in an Appendix.
+
+1. DATA EXPLORATION
+
+### Data acquisition
+
+First, we need to explore our given data set. I have published the original data sets in
+my github account
+
+#### Read Data
+
+Here, we read the dataset and shorten the feature names for better readibility in visualizations.
+
+```{r}
+df <- read.csv("https://raw.githubusercontent.com/mkivenson/Business-Analytics-Data-Mining/master/Moneyball%20Regression/moneyball-training-data.csv")[-1]
+names(df) <- sub("TEAM_", "", names(df))
+names(df) <- sub("BATTING_", "bt_", names(df))
+names(df) <- sub("BASERUN_", "br_", names(df))
+names(df) <- sub("FIELDING_", "fd_", names(df))
+names(df) <- sub("PITCHING_", "ph_", names(df))
+names(df) <- sub("TARGET_", "", names(df))
+head(df)
+```
+
+#### Summary
+
+First, we take a look at a summary of the data. A few things of interest are revealed:
+
+* bt_SO, br_SB, br_CS, bt_HBP, ph_SO, and fd_DP have missing values
+* The max values of ph_H, ph_BB, ph_SO, and fd_E seem abnormally high
+
+```{r}
+summary(df)
+```
+
+#### Dimensions
+
+Let’s see the dimensions of our moneyball training data set.
+
+```{r}
+dim(df)
+```
+---
+
+The training data has <b>17</b> columns and <b>2,276 rows</b>. <br/>
+
+The explanatory columns are broken down into <b>four categories</b>: <br/>
+
+- Batting
+- Base run 
+- Pitching
+- Fielding
+
+Below you will see a preview of the columns and the first few observations broken down into these four categories. 
+
+<br/>
+
+#### Histogram
+
+Next, we create histograms of each of the features and target variable. 
+
+* bt_H, bt_2B, bt_BB, br_CS, bt_HBP, fd_DP, WINS all have normal distributions
+* ph_H, ph_BB, ph_SO, and fd_E are highly right-skewed
+
+```{r fig1, fig.height = 8, fig.width = 8, fig.align= 'center', warning=FALSE}
+
+grid.arrange(ggplot(df, aes(bt_H)) + geom_histogram(binwidth = 30),
+             ggplot(df, aes(bt_2B)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(bt_3B)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(bt_HR)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(bt_BB)) + geom_histogram(binwidth = 30),
+             ggplot(df, aes(bt_SO)) + geom_histogram(binwidth = 50),
+             ggplot(df, aes(br_SB)) + geom_histogram(binwidth = 30),
+             ggplot(df, aes(br_CS)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(bt_HBP)) + geom_histogram(binwidth = 3),
+             ggplot(df, aes(ph_H)) + geom_histogram(binwidth = 100),
+             ggplot(df, aes(ph_HR)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(ph_BB)) + geom_histogram(binwidth = 100),
+             ggplot(df, aes(ph_SO)) + geom_histogram(binwidth = 30),
+             ggplot(df, aes(fd_E)) + geom_histogram(binwidth = 30),
+             ggplot(df, aes(fd_DP)) + geom_histogram(binwidth = 10),
+             ggplot(df, aes(WINS)) + geom_histogram(binwidth = 5),
+             ncol=4)
+```
+
+
+#### QQ Plots
+
+* Most of the features are not lined up with the theoretical QQ plot, however this will be addressed by the models we build.
+
+```{r fig2, fig.height = 8, fig.width = 8, fig.align= 'center', echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow=c(4,4), cex=.8, mai=c(0,0,0.2,0))
+invisible(qqPlot(~ bt_H, data = df, main = "bt_H"))
+invisible(qqPlot(~ bt_2B, data = df, main = "bt_2B"))
+invisible(qqPlot(~ bt_3B, data = df, main = "bt_3B"))
+invisible(qqPlot(~ bt_HR, data = df, main = "bt_HR"))
+invisible(qqPlot(~ bt_BB, data = df, main = "bt_BB"))
+invisible(qqPlot(~ bt_SO, data = df, main = "bt_SO"))
+invisible(qqPlot(~ br_SB, data = df, main = "br_SB"))
+invisible(qqPlot(~ br_CS, data = df, main = "br_CS"))
+invisible(qqPlot(~ bt_HBP, data = df, main = "bt_HBP"))
+invisible(qqPlot(~ ph_H, data = df, main = "ph_H"))
+invisible(qqPlot(~ ph_HR, data = df, main = "ph_HR"))
+invisible(qqPlot(~ ph_BB, data = df, main = "ph_BB"))
+invisible(qqPlot(~ ph_SO, data = df, main = "ph_SO"))
+invisible(qqPlot(~ fd_E, data = df, main = "fd_E"))
+invisible(qqPlot(~ fd_DP, data = df, main = "fd_DP"))
+invisible(qqPlot(~ WINS, data = df, main = "WINS"))
+```
+
+#### Boxplot
+
+* Most of the boxplots shown below reflect a long right tail with many outliers.
+
+```{r fig3, fig.height = 8, fig.width = 8, fig.align= 'center', warning=FALSE}
+grid.arrange(ggplot(df, aes(x = "bt_H", y = bt_H))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_2B", y = bt_2B))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_3B", y = bt_3B))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_HR", y = bt_HR))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_BB", y = bt_BB))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_SO", y = bt_SO))+geom_boxplot(),
+             ggplot(df, aes(x = "br_SB", y = br_SB))+geom_boxplot(),
+             ggplot(df, aes(x = "br_CS", y = br_CS))+geom_boxplot(),
+             ggplot(df, aes(x = "bt_HBP", y = bt_HBP))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_H", y = ph_H))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_HR", y = ph_HR))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_BB", y = ph_BB))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_SO", y = ph_SO))+geom_boxplot(),
+             ggplot(df, aes(x = "fd_E", y = fd_E))+geom_boxplot(),
+             ggplot(df, aes(x = "fd_DP", y = fd_DP))+geom_boxplot(),
+             ggplot(df, aes(x = "WINS", y = WINS))+geom_boxplot(),
+             ncol=4)
+```
+
+
+
+
+#### Correlation Plot
+
+* There is a strong positive correlation between ph_H and bt_H
+* There is a strong positive correlation between ph_HR and bt_HR
+* There is a strong positive correlation between ph_BB and bt_BB
+* There is a strong positive correlation between ph_SO and bt_SO
+* There seems to be a weak correlation between bt_HBP/br_SB and Wins
+
+```{r fig4, fig.height = 8, fig.width = 8, fig.align= 'center'}
+corrplot(cor(df, use = "complete.obs"), method ="color", type="lower", addrect = 1, number.cex = 0.5, sig.level = 0.30,
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.srt = 25, # Text label color and rotation
+         tl.cex = 0.7,
+         diag = TRUE)
+```
+
+
+#### Scatter Plots
+
+Here, we see a scatter plot of each of the feature variables with the target variable. 
+
+```{r fig5, fig.height = 8, fig.width = 8, fig.align= 'center', warning=FALSE}
+grid.arrange(ggplot(df, aes(bt_H, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_2B, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_3B, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_HR, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_BB, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_SO, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(br_SB, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(br_CS, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(bt_HBP, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(ph_H, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(ph_HR, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(ph_BB, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(ph_SO, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(fd_E, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ggplot(df, aes(fd_DP, WINS)) + geom_point(alpha = 1/10)+geom_smooth(method=lm),
+             ncol=4)
+```
+
+2. Data Preparation
+
+### Outliers
+
+#### Extreme Values
+
+While exploring the data, we noticed that the max values of ph_H, ph_BB, ph_SO, and fd_E seem abnormally high.
+
+We see that the record for most hits in a season by team (ph_H) was set at 1,724 in 1921. However, we also know that the datapoints were normalized for 162 games in a season. To take a moderate approach, we will remove the some of the most egggregious outliers that are seen in these variables.
+
+```{r fig6, fig.height = 4, fig.width = 7, fig.align= 'center', message=FALSE, warning=FALSE}
+grid.arrange(ggplot(df, aes(x = "ph_H", y = ph_H))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_BB", y = ph_BB))+geom_boxplot(),
+             ggplot(df, aes(x = "ph_SO", y = ph_SO))+geom_boxplot(),
+             ggplot(df, aes(x = "fd_E", y = fd_E))+geom_boxplot(),
+             ncol=4)
+df <- filter(df, ph_H < 15000 | ph_BB < 1500 | ph_SO < 3000 | fd_E < 1500)
+```
+
+#### Cooks Distance
+
+We will also remove influencial outliers using Cooks distance. 
+
+```{r fig7, fig.height = 4, fig.width = 7, fig.align= 'center'}
+mod <- lm(WINS ~ ., data=df)
+cooksd <- cooks.distance(mod)
+plot(cooksd, pch="*", cex=2, main="Influential Outliers by Cooks distance")
+abline(h = 4*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""), col="red")  # add labels
+```
+
+
+We remove the influencial outliers.
+
+```{r}
+influential <- as.numeric(names(cooksd)[(cooksd > 4*mean(cooksd, na.rm=T))])
+df <- df[-influential, ]
+```
+
+### Fill Missing Values
+
+The following features have missing values.
+
+* bt_SO - Strikeouts by batters
+* br_SB - Stolen bases 
+* br_CS - Caught stealing 
+* bt_HBP - Batters hit by pitch (get a free base) 
+* ph_SO - Strikeouts by pitchers
+* fd_DP - Double Plays
+
+Since most values in bt_HBP are missing (90%), we will drop this feature.
+
+
+#### Multivariate Imputation by Chained Equations (mice)
+
+We will use Multivariable Imputation by Chained Equations (mice) to fill the missing variables.
+
+```{r fig8, fig.height = 4, fig.width = 7, fig.align= 'center', message=FALSE, warning=FALSE, include=FALSE}
+df <- subset(df, select = -c(bt_HBP))
+aggr_plot <- aggr(df, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+tempData <- mice(df,m=5,maxit=50,meth='pmm',seed=500)
+df <- complete(tempData,1)
+```
+
+
+### Address Correlated Features
+
+While exploring the data, we noticed several features had strong positive linear relationships.
+
+Let's run a Variance Inflation Factor test to detect multicollinearity. Features with a VIF score > 10 will be reviewed. 
+
+```{r}
+model1 <- lm(WINS ~., data = df)
+car::vif(model1)
+```
+
+
+Let's make another correlation plot with only these features.
+
+* bt_SO (strikeouts by batters) and bt_H (base hits by batters) have a strong positive correlation
+* bt_H (base hits by batters) and bt_BB (walks by batters) have a strong positive correlation
+* ph_BB (walks allowed) and bt_BB (walks by batters) have a strong negative correlation 
+* ph_SO (strikeouts by pitchers) and bt_SO (strikeouts by batters) have a moderate negative correlation
+* ph_HR (homeruns allowed) and bt_HR (homeruns by batters) have a strong negative correlation
+* ph_SO (strikeouts by pitchers) and ph_BB (walks allowed) have a moderate negative correation
+
+```{r fig9, fig.height = 6, fig.width = 6, fig.align= 'center'}
+corrplot(cor(subset(df, select = c(WINS, bt_H, bt_HR, bt_BB, bt_SO, ph_H, ph_HR, ph_BB, ph_SO)), use = "complete.obs"), method ="color", type="lower", addrect = 1, number.cex = 0.5, sig.level = 0.30,
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.srt = 25, # Text label color and rotation
+         tl.cex = 0.7,
+         diag = TRUE)
+```
+
+
+To fix this, we can remove some correlated features and combine others. 
+
+* Remove bt_HR. It has an extremely strong correlation with ph_HR.
+* Remove bt_SO. It has an extremely strong correlation with ph_SO.
+* Replace bt_H (total base hits by batters) with BT_1B = bt_H - BT_2B - BT_3B - BT_HR (1B base hits)
+* Replace ph_BB and bt_BB as a ratio of walks by batters to walks allowed
+
+
+```{r}
+df$bt_1B <- df$bt_H - df$bt_2B - df$bt_3B - df$bt_HR
+df$BB <- df$bt_BB / df$ph_BB
+df2 <- subset(df, select = -c(bt_HR, bt_SO, bt_H, bt_BB, ph_BB))
+```
+
+These adjustments result in less multicollinearity.
+
+
+```{r}
+model1 <- lm(WINS ~., data = df2)
+car::vif(model1)
+```
+
+### Create Output
+
+```{r}
+write.csv(df, "baseball_output.csv")
+```
+
+### Linear Model 1.
+
+We will begin with all independent variables and use the back elimination method to eliminate the non-significant ones. 
+
+```{r}
+be_lm1 <- lm(WINS ~., data = df)
+sum_lm1<- summary(be_lm1)
+par(mfrow=c(2,2))
+plot(be_lm1)
+```
+
+We will start by eliminating the variables with high p-values and lowest significance from the model
+
+Let's take a look at the resulting model:
+```{r}
+be_lm2 <- lm(WINS ~ bt_H + bt_BB + br_SB + br_CS, data =df)
+sum_lm2<-summary(be_lm2)
+par(mfrow=c(2,2))
+plot(be_lm2)
+```
+
+###Linear Model 2.
+
+This Linear Model will be built using the variables we believe would have the highest corelation with WINs.
+
+THe following variables will be used:
+- Base Hits by batters (1B,2B,3B,HR)
+- Walks by batters
+- Stolen bases
+- Strikeouts by batters
+
+
+
+Let's remove the two variables with low significance:
+```{r}
+be_lm3 <- lm(WINS ~ bt_H + bt_2B + bt_3B + bt_HR + bt_BB + bt_SO, data =df)
+sum_lm3<-summary(be_lm3)
+par(mfrow=c(2,2))
+plot(be_lm3)
+
+```
+
+
+```{r}
+be_lm4 <- lm(WINS ~ 
+              I(bt_H + bt_BB 
+                - ph_H - ph_BB) + 
+              I(bt_HR - ph_HR) + 
+              I(bt_SO - ph_SO) + 
+              I(br_SB - br_CS) +
+              fd_E + fd_DP , df)
+sum_lm4<-summary(be_lm4)
+par(mfrow=c(2,2))
+plot(be_lm4)
+```
+
+
+
+```{r}
+# list of models and model summaries
+models <- list(be_lm1, be_lm2,be_lm3,be_lm4)
+modsums <- list(sum_lm1, sum_lm2, sum_lm3, sum_lm4)
+nmod <- length(modsums)
+
+# storage variables
+nvar <- integer(nmod)
+sigma <- numeric(nmod)
+rsq <- numeric(nmod)
+adj_rsq <- numeric(nmod)
+fstat <- numeric(nmod)
+fstat_p <- numeric(nmod)
+mse <- numeric(nmod)
+rmse <- numeric(nmod)
+
+# loop through model summaries
+for (j in 1:nmod) {
+    nvar[j] <- modsums[[j]]$df[1]
+    sigma[j] <- modsums[[j]]$sigma
+    rsq[j] <- modsums[[j]]$r.squared
+    adj_rsq[j] <- modsums[[j]]$adj.r.squared
+    fstat[j] <- modsums[[j]]$fstatistic[1]
+    fstat_p[j] <- 1 - pf(modsums[[j]]$fstatistic[1], modsums[[j]]$fstatistic[2], 
+                         modsums[[j]]$fstatistic[3])
+    mse[j] <- mean(modsums[[j]]$residuals^2)
+    rmse[j] <- sqrt(mse[j])
+}
+
+modnames <- paste0("lm", c(1:nmod))
+
+# evaluation dataframe
+eval <- data.frame(Model = modnames, 
+                   N_Vars = nvar,
+                   Sigma = sigma,
+                   R_Sq = rsq,
+                   Adj_R_Sq = adj_rsq,
+                   F_Stat = fstat,
+                   F_P_Val = fstat_p,
+                   MSE = mse,
+                   RMSE = rmse)
+
+kable(eval, digits = 3, align = 'c')
+```
+
+
+

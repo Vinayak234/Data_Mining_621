@@ -1,0 +1,797 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={DATA 621},
+            pdfauthor={Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, Sunny Mehta, Vinayak Patel},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+% grffile has become a legacy package: https://ctan.org/pkg/grffile
+\IfFileExists{grffile.sty}{%
+\usepackage{grffile}
+}{}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{DATA 621}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, Sunny Mehta, Vinayak
+Patel}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2020-02-29}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{homework-1}{%
+\section{HOMEWORK \#1}\label{homework-1}}
+
+\hypertarget{overview}{%
+\subsection{Overview:}\label{overview}}
+
+In this homework assignment, you will explore, analyze and model a data
+set containing approximately 2200 records. Each record represents a
+professional baseball team from the years 1871 to 2006 inclusive. Each
+record has the performance of the team for the given year, with all of
+the statistics adjusted to match the performance of a 162 game season.
+Your objective is to build a multiple linear regression model on the
+training data to predict the number of wins for the team. You can only
+use the variables given to you (or variables that you derive from the
+variables provided).
+
+\hypertarget{deliverables}{%
+\subsection{Deliverables:}\label{deliverables}}
+
+\begin{itemize}
+\tightlist
+\item
+  A write-up submitted in PDF format. Your write-up should have four
+  sections. Each one is described below. You may assume you are
+  addressing me as a fellow data scientist, so do not need to shy away
+  from technical details.
+\item
+  Assigned predictions (the number of wins for the team) for the
+  evaluation data set.
+\item
+  Include your R statistical programming code in an Appendix.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  DATA EXPLORATION
+\end{enumerate}
+
+\hypertarget{data-acquisition}{%
+\subsubsection{Data acquisition}\label{data-acquisition}}
+
+First, we need to explore our given data set. I have published the
+original data sets in my github account
+
+\hypertarget{read-data}{%
+\paragraph{Read Data}\label{read-data}}
+
+Here, we read the dataset and shorten the feature names for better
+readibility in visualizations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/mkivenson/Business-Analytics-Data-Mining/master/Moneyball%20Regression/moneyball-training-data.csv"}\NormalTok{)[}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"TEAM_"}\NormalTok{, }\StringTok{""}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"BATTING_"}\NormalTok{, }\StringTok{"bt_"}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"BASERUN_"}\NormalTok{, }\StringTok{"br_"}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"FIELDING_"}\NormalTok{, }\StringTok{"fd_"}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"PITCHING_"}\NormalTok{, }\StringTok{"ph_"}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{names}\NormalTok{(df) <-}\StringTok{ }\KeywordTok{sub}\NormalTok{(}\StringTok{"TARGET_"}\NormalTok{, }\StringTok{""}\NormalTok{, }\KeywordTok{names}\NormalTok{(df))}
+\KeywordTok{head}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   WINS bt_H bt_2B bt_3B bt_HR bt_BB bt_SO br_SB br_CS bt_HBP ph_H ph_HR
+## 1   39 1445   194    39    13   143   842    NA    NA     NA 9364    84
+## 2   70 1339   219    22   190   685  1075    37    28     NA 1347   191
+## 3   86 1377   232    35   137   602   917    46    27     NA 1377   137
+## 4   70 1387   209    38    96   451   922    43    30     NA 1396    97
+## 5   82 1297   186    27   102   472   920    49    39     NA 1297   102
+## 6   75 1279   200    36    92   443   973   107    59     NA 1279    92
+##   ph_BB ph_SO fd_E fd_DP
+## 1   927  5456 1011    NA
+## 2   689  1082  193   155
+## 3   602   917  175   153
+## 4   454   928  164   156
+## 5   472   920  138   168
+## 6   443   973  123   149
+\end{verbatim}
+
+\hypertarget{summary}{%
+\paragraph{Summary}\label{summary}}
+
+First, we take a look at a summary of the data. A few things of interest
+are revealed:
+
+\begin{itemize}
+\tightlist
+\item
+  bt\_SO, br\_SB, br\_CS, bt\_HBP, ph\_SO, and fd\_DP have missing
+  values
+\item
+  The max values of ph\_H, ph\_BB, ph\_SO, and fd\_E seem abnormally
+  high
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       WINS             bt_H          bt_2B           bt_3B       
+##  Min.   :  0.00   Min.   : 891   Min.   : 69.0   Min.   :  0.00  
+##  1st Qu.: 71.00   1st Qu.:1383   1st Qu.:208.0   1st Qu.: 34.00  
+##  Median : 82.00   Median :1454   Median :238.0   Median : 47.00  
+##  Mean   : 80.79   Mean   :1469   Mean   :241.2   Mean   : 55.25  
+##  3rd Qu.: 92.00   3rd Qu.:1537   3rd Qu.:273.0   3rd Qu.: 72.00  
+##  Max.   :146.00   Max.   :2554   Max.   :458.0   Max.   :223.00  
+##                                                                  
+##      bt_HR            bt_BB           bt_SO            br_SB      
+##  Min.   :  0.00   Min.   :  0.0   Min.   :   0.0   Min.   :  0.0  
+##  1st Qu.: 42.00   1st Qu.:451.0   1st Qu.: 548.0   1st Qu.: 66.0  
+##  Median :102.00   Median :512.0   Median : 750.0   Median :101.0  
+##  Mean   : 99.61   Mean   :501.6   Mean   : 735.6   Mean   :124.8  
+##  3rd Qu.:147.00   3rd Qu.:580.0   3rd Qu.: 930.0   3rd Qu.:156.0  
+##  Max.   :264.00   Max.   :878.0   Max.   :1399.0   Max.   :697.0  
+##                                   NA's   :102      NA's   :131    
+##      br_CS           bt_HBP           ph_H           ph_HR      
+##  Min.   :  0.0   Min.   :29.00   Min.   : 1137   Min.   :  0.0  
+##  1st Qu.: 38.0   1st Qu.:50.50   1st Qu.: 1419   1st Qu.: 50.0  
+##  Median : 49.0   Median :58.00   Median : 1518   Median :107.0  
+##  Mean   : 52.8   Mean   :59.36   Mean   : 1779   Mean   :105.7  
+##  3rd Qu.: 62.0   3rd Qu.:67.00   3rd Qu.: 1682   3rd Qu.:150.0  
+##  Max.   :201.0   Max.   :95.00   Max.   :30132   Max.   :343.0  
+##  NA's   :772     NA's   :2085                                   
+##      ph_BB            ph_SO              fd_E            fd_DP      
+##  Min.   :   0.0   Min.   :    0.0   Min.   :  65.0   Min.   : 52.0  
+##  1st Qu.: 476.0   1st Qu.:  615.0   1st Qu.: 127.0   1st Qu.:131.0  
+##  Median : 536.5   Median :  813.5   Median : 159.0   Median :149.0  
+##  Mean   : 553.0   Mean   :  817.7   Mean   : 246.5   Mean   :146.4  
+##  3rd Qu.: 611.0   3rd Qu.:  968.0   3rd Qu.: 249.2   3rd Qu.:164.0  
+##  Max.   :3645.0   Max.   :19278.0   Max.   :1898.0   Max.   :228.0  
+##                   NA's   :102                        NA's   :286
+\end{verbatim}
+
+\hypertarget{dimensions}{%
+\paragraph{Dimensions}\label{dimensions}}
+
+Let's see the dimensions of our moneyball training data set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2276   16
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+The training data has 17 columns and 2,276 rows.
+
+The explanatory columns are broken down into four categories:
+
+\begin{itemize}
+\tightlist
+\item
+  Batting
+\item
+  Base run
+\item
+  Pitching
+\item
+  Fielding
+\end{itemize}
+
+Below you will see a preview of the columns and the first few
+observations broken down into these four categories.
+
+\hypertarget{histogram}{%
+\paragraph{Histogram}\label{histogram}}
+
+Next, we create histograms of each of the features and target variable.
+
+\begin{itemize}
+\tightlist
+\item
+  bt\_H, bt\_2B, bt\_BB, br\_CS, bt\_HBP, fd\_DP, WINS all have normal
+  distributions
+\item
+  ph\_H, ph\_BB, ph\_SO, and fd\_E are highly right-skewed
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grid.arrange}\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_H)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{30}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_2B)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_3B)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_HR)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_BB)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{30}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_SO)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{50}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(br_SB)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{30}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(br_CS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_HBP)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{3}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_H)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{100}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_HR)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_BB)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{100}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_SO)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{30}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(fd_E)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{30}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(fd_DP)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{10}\NormalTok{),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{5}\NormalTok{),}
+             \DataTypeTok{ncol=}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig1-1} \end{center}
+
+\hypertarget{qq-plots}{%
+\paragraph{QQ Plots}\label{qq-plots}}
+
+\begin{itemize}
+\tightlist
+\item
+  Most of the features are not lined up with the theoretical QQ plot,
+  however this will be addressed by the models we build.
+\end{itemize}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig2-1} \end{center}
+
+\hypertarget{boxplot}{%
+\paragraph{Boxplot}\label{boxplot}}
+
+\begin{itemize}
+\tightlist
+\item
+  Most of the boxplots shown below reflect a long right tail with many
+  outliers.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grid.arrange}\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_H"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_H))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_2B"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_2B))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_3B"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_3B))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_HR"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_HR))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_BB"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_BB))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_SO"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_SO))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"br_SB"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ br_SB))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"br_CS"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ br_CS))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"bt_HBP"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ bt_HBP))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_H"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_H))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_HR"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_HR))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_BB"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_BB))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_SO"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_SO))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"fd_E"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ fd_E))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"fd_DP"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ fd_DP))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"WINS"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ WINS))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \DataTypeTok{ncol=}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig3-1} \end{center}
+
+\hypertarget{correlation-plot}{%
+\paragraph{Correlation Plot}\label{correlation-plot}}
+
+\begin{itemize}
+\tightlist
+\item
+  There is a strong positive correlation between ph\_H and bt\_H
+\item
+  There is a strong positive correlation between ph\_HR and bt\_HR
+\item
+  There is a strong positive correlation between ph\_BB and bt\_BB
+\item
+  There is a strong positive correlation between ph\_SO and bt\_SO
+\item
+  There seems to be a weak correlation between bt\_HBP/br\_SB and Wins
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{corrplot}\NormalTok{(}\KeywordTok{cor}\NormalTok{(df, }\DataTypeTok{use =} \StringTok{"complete.obs"}\NormalTok{), }\DataTypeTok{method =}\StringTok{"color"}\NormalTok{, }\DataTypeTok{type=}\StringTok{"lower"}\NormalTok{, }\DataTypeTok{addrect =} \DecValTok{1}\NormalTok{, }\DataTypeTok{number.cex =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{sig.level =} \FloatTok{0.30}\NormalTok{,}
+         \DataTypeTok{addCoef.col =} \StringTok{"black"}\NormalTok{, }\CommentTok{# Add coefficient of correlation}
+         \DataTypeTok{tl.srt =} \DecValTok{25}\NormalTok{, }\CommentTok{# Text label color and rotation}
+         \DataTypeTok{tl.cex =} \FloatTok{0.7}\NormalTok{,}
+         \DataTypeTok{diag =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig4-1} \end{center}
+
+\hypertarget{scatter-plots}{%
+\paragraph{Scatter Plots}\label{scatter-plots}}
+
+Here, we see a scatter plot of each of the feature variables with the
+target variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grid.arrange}\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_H, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_2B, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_3B, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_HR, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_BB, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_SO, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(br_SB, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(br_CS, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(bt_HBP, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_H, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_HR, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_BB, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(ph_SO, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(fd_E, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(fd_DP, WINS)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{alpha =} \DecValTok{1}\OperatorTok{/}\DecValTok{10}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm),}
+             \DataTypeTok{ncol=}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig5-1} \end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Data Preparation
+\end{enumerate}
+
+\hypertarget{outliers}{%
+\subsubsection{Outliers}\label{outliers}}
+
+\hypertarget{extreme-values}{%
+\paragraph{Extreme Values}\label{extreme-values}}
+
+While exploring the data, we noticed that the max values of ph\_H,
+ph\_BB, ph\_SO, and fd\_E seem abnormally high.
+
+We see that the record for most hits in a season by team (ph\_H) was set
+at 1,724 in 1921. However, we also know that the datapoints were
+normalized for 162 games in a season. To take a moderate approach, we
+will remove the some of the most egggregious outliers that are seen in
+these variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grid.arrange}\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_H"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_H))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_BB"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_BB))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"ph_SO"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ ph_SO))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \KeywordTok{ggplot}\NormalTok{(df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \StringTok{"fd_E"}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ fd_E))}\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{(),}
+             \DataTypeTok{ncol=}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig6-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(df, ph_H }\OperatorTok{<}\StringTok{ }\DecValTok{15000} \OperatorTok{|}\StringTok{ }\NormalTok{ph_BB }\OperatorTok{<}\StringTok{ }\DecValTok{1500} \OperatorTok{|}\StringTok{ }\NormalTok{ph_SO }\OperatorTok{<}\StringTok{ }\DecValTok{3000} \OperatorTok{|}\StringTok{ }\NormalTok{fd_E }\OperatorTok{<}\StringTok{ }\DecValTok{1500}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{cooks-distance}{%
+\paragraph{Cooks Distance}\label{cooks-distance}}
+
+We will also remove influencial outliers using Cooks distance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{df)}
+\NormalTok{cooksd <-}\StringTok{ }\KeywordTok{cooks.distance}\NormalTok{(mod)}
+\KeywordTok{plot}\NormalTok{(cooksd, }\DataTypeTok{pch=}\StringTok{"*"}\NormalTok{, }\DataTypeTok{cex=}\DecValTok{2}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Influential Outliers by Cooks distance"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h =} \DecValTok{4}\OperatorTok{*}\KeywordTok{mean}\NormalTok{(cooksd, }\DataTypeTok{na.rm=}\NormalTok{T), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)  }\CommentTok{# add cutoff line}
+\KeywordTok{text}\NormalTok{(}\DataTypeTok{x=}\DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(cooksd)}\OperatorTok{+}\DecValTok{1}\NormalTok{, }\DataTypeTok{y=}\NormalTok{cooksd, }\DataTypeTok{labels=}\KeywordTok{ifelse}\NormalTok{(cooksd}\OperatorTok{>}\DecValTok{4}\OperatorTok{*}\KeywordTok{mean}\NormalTok{(cooksd, }\DataTypeTok{na.rm=}\NormalTok{T),}\KeywordTok{names}\NormalTok{(cooksd),}\StringTok{""}\NormalTok{), }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)  }\CommentTok{# add labels}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig7-1} \end{center}
+
+We remove the influencial outliers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{influential <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{names}\NormalTok{(cooksd)[(cooksd }\OperatorTok{>}\StringTok{ }\DecValTok{4}\OperatorTok{*}\KeywordTok{mean}\NormalTok{(cooksd, }\DataTypeTok{na.rm=}\NormalTok{T))])}
+\NormalTok{df <-}\StringTok{ }\NormalTok{df[}\OperatorTok{-}\NormalTok{influential, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{fill-missing-values}{%
+\subsubsection{Fill Missing Values}\label{fill-missing-values}}
+
+The following features have missing values.
+
+\begin{itemize}
+\tightlist
+\item
+  bt\_SO - Strikeouts by batters
+\item
+  br\_SB - Stolen bases
+\item
+  br\_CS - Caught stealing
+\item
+  bt\_HBP - Batters hit by pitch (get a free base)
+\item
+  ph\_SO - Strikeouts by pitchers
+\item
+  fd\_DP - Double Plays
+\end{itemize}
+
+Since most values in bt\_HBP are missing (90\%), we will drop this
+feature.
+
+\hypertarget{multivariate-imputation-by-chained-equations-mice}{%
+\paragraph{Multivariate Imputation by Chained Equations
+(mice)}\label{multivariate-imputation-by-chained-equations-mice}}
+
+We will use Multivariable Imputation by Chained Equations (mice) to fill
+the missing variables.
+
+\hypertarget{address-correlated-features}{%
+\subsubsection{Address Correlated
+Features}\label{address-correlated-features}}
+
+While exploring the data, we noticed several features had strong
+positive linear relationships.
+
+Let's run a Variance Inflation Factor test to detect multicollinearity.
+Features with a VIF score \textgreater{} 10 will be reviewed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data =}\NormalTok{ df)}
+\NormalTok{car}\OperatorTok{::}\KeywordTok{vif}\NormalTok{(model1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      bt_H     bt_2B     bt_3B     bt_HR     bt_BB     bt_SO     br_SB 
+##  3.820596  2.467157  2.989892 36.501400  6.787771  5.279911  3.862460 
+##     br_CS      ph_H     ph_HR     ph_BB     ph_SO      fd_E     fd_DP 
+##  3.793169  4.073762 29.596294  6.468847  3.369127  4.988328  1.902235
+\end{verbatim}
+
+Let's make another correlation plot with only these features.
+
+\begin{itemize}
+\tightlist
+\item
+  bt\_SO (strikeouts by batters) and bt\_H (base hits by batters) have a
+  strong positive correlation
+\item
+  bt\_H (base hits by batters) and bt\_BB (walks by batters) have a
+  strong positive correlation
+\item
+  ph\_BB (walks allowed) and bt\_BB (walks by batters) have a strong
+  negative correlation
+\item
+  ph\_SO (strikeouts by pitchers) and bt\_SO (strikeouts by batters)
+  have a moderate negative correlation
+\item
+  ph\_HR (homeruns allowed) and bt\_HR (homeruns by batters) have a
+  strong negative correlation
+\item
+  ph\_SO (strikeouts by pitchers) and ph\_BB (walks allowed) have a
+  moderate negative correation
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{corrplot}\NormalTok{(}\KeywordTok{cor}\NormalTok{(}\KeywordTok{subset}\NormalTok{(df, }\DataTypeTok{select =} \KeywordTok{c}\NormalTok{(WINS, bt_H, bt_HR, bt_BB, bt_SO, ph_H, ph_HR, ph_BB, ph_SO)), }\DataTypeTok{use =} \StringTok{"complete.obs"}\NormalTok{), }\DataTypeTok{method =}\StringTok{"color"}\NormalTok{, }\DataTypeTok{type=}\StringTok{"lower"}\NormalTok{, }\DataTypeTok{addrect =} \DecValTok{1}\NormalTok{, }\DataTypeTok{number.cex =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{sig.level =} \FloatTok{0.30}\NormalTok{,}
+         \DataTypeTok{addCoef.col =} \StringTok{"black"}\NormalTok{, }\CommentTok{# Add coefficient of correlation}
+         \DataTypeTok{tl.srt =} \DecValTok{25}\NormalTok{, }\CommentTok{# Text label color and rotation}
+         \DataTypeTok{tl.cex =} \FloatTok{0.7}\NormalTok{,}
+         \DataTypeTok{diag =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{VPatel_Assign1_files/figure-latex/fig9-1} \end{center}
+
+To fix this, we can remove some correlated features and combine others.
+
+\begin{itemize}
+\tightlist
+\item
+  Remove bt\_HR. It has an extremely strong correlation with ph\_HR.
+\item
+  Remove bt\_SO. It has an extremely strong correlation with ph\_SO.
+\item
+  Replace bt\_H (total base hits by batters) with BT\_1B = bt\_H -
+  BT\_2B - BT\_3B - BT\_HR (1B base hits)
+\item
+  Replace ph\_BB and bt\_BB as a ratio of walks by batters to walks
+  allowed
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\OperatorTok{$}\NormalTok{bt_1B <-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{bt_H }\OperatorTok{-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{bt_2B }\OperatorTok{-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{bt_3B }\OperatorTok{-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{bt_HR}
+\NormalTok{df}\OperatorTok{$}\NormalTok{BB <-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{bt_BB }\OperatorTok{/}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{ph_BB}
+\NormalTok{df2 <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(df, }\DataTypeTok{select =} \OperatorTok{-}\KeywordTok{c}\NormalTok{(bt_HR, bt_SO, bt_H, bt_BB, ph_BB))}
+\end{Highlighting}
+\end{Shaded}
+
+These adjustments result in less multicollinearity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data =}\NormalTok{ df2)}
+\NormalTok{car}\OperatorTok{::}\KeywordTok{vif}\NormalTok{(model1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    bt_2B    bt_3B    br_SB    br_CS     ph_H    ph_HR    ph_SO     fd_E 
+## 1.553145 2.338689 3.650821 3.686438 3.628940 2.311793 1.832450 6.805560 
+##    fd_DP    bt_1B       BB 
+## 1.865776 2.664315 5.725045
+\end{verbatim}
+
+\hypertarget{create-output}{%
+\subsubsection{Create Output}\label{create-output}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.csv}\NormalTok{(df, }\StringTok{"baseball_output.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{linear-model-1.}{%
+\subsubsection{Linear Model 1.}\label{linear-model-1.}}
+
+We will begin with all independent variables and use the back
+elimination method to eliminate the non-significant ones.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{be_lm1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data =}\NormalTok{ df)}
+\NormalTok{sum_lm1<-}\StringTok{ }\KeywordTok{summary}\NormalTok{(be_lm1)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(be_lm1)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{VPatel_Assign1_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+We will start by eliminating the variables with high p-values and lowest
+significance from the model
+
+Let's take a look at the resulting model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{be_lm2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\StringTok{ }\NormalTok{bt_H }\OperatorTok{+}\StringTok{ }\NormalTok{bt_BB }\OperatorTok{+}\StringTok{ }\NormalTok{br_SB }\OperatorTok{+}\StringTok{ }\NormalTok{br_CS, }\DataTypeTok{data =}\NormalTok{df)}
+\NormalTok{sum_lm2<-}\KeywordTok{summary}\NormalTok{(be_lm2)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(be_lm2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{VPatel_Assign1_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\#\#\#Linear Model 2.
+
+This Linear Model will be built using the variables we believe would
+have the highest corelation with WINs.
+
+THe following variables will be used: - Base Hits by batters
+(1B,2B,3B,HR) - Walks by batters - Stolen bases - Strikeouts by batters
+
+Let's remove the two variables with low significance:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{be_lm3 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\StringTok{ }\NormalTok{bt_H }\OperatorTok{+}\StringTok{ }\NormalTok{bt_2B }\OperatorTok{+}\StringTok{ }\NormalTok{bt_3B }\OperatorTok{+}\StringTok{ }\NormalTok{bt_HR }\OperatorTok{+}\StringTok{ }\NormalTok{bt_BB }\OperatorTok{+}\StringTok{ }\NormalTok{bt_SO, }\DataTypeTok{data =}\NormalTok{df)}
+\NormalTok{sum_lm3<-}\KeywordTok{summary}\NormalTok{(be_lm3)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(be_lm3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{VPatel_Assign1_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{be_lm4 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WINS }\OperatorTok{~}\StringTok{ }
+\StringTok{              }\KeywordTok{I}\NormalTok{(bt_H }\OperatorTok{+}\StringTok{ }\NormalTok{bt_BB }
+                \OperatorTok{-}\StringTok{ }\NormalTok{ph_H }\OperatorTok{-}\StringTok{ }\NormalTok{ph_BB) }\OperatorTok{+}\StringTok{ }
+\StringTok{              }\KeywordTok{I}\NormalTok{(bt_HR }\OperatorTok{-}\StringTok{ }\NormalTok{ph_HR) }\OperatorTok{+}\StringTok{ }
+\StringTok{              }\KeywordTok{I}\NormalTok{(bt_SO }\OperatorTok{-}\StringTok{ }\NormalTok{ph_SO) }\OperatorTok{+}\StringTok{ }
+\StringTok{              }\KeywordTok{I}\NormalTok{(br_SB }\OperatorTok{-}\StringTok{ }\NormalTok{br_CS) }\OperatorTok{+}
+\StringTok{              }\NormalTok{fd_E }\OperatorTok{+}\StringTok{ }\NormalTok{fd_DP , df)}
+\NormalTok{sum_lm4<-}\KeywordTok{summary}\NormalTok{(be_lm4)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(be_lm4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{VPatel_Assign1_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# list of models and model summaries}
+\NormalTok{models <-}\StringTok{ }\KeywordTok{list}\NormalTok{(be_lm1, be_lm2,be_lm3,be_lm4)}
+\NormalTok{modsums <-}\StringTok{ }\KeywordTok{list}\NormalTok{(sum_lm1, sum_lm2, sum_lm3, sum_lm4)}
+\NormalTok{nmod <-}\StringTok{ }\KeywordTok{length}\NormalTok{(modsums)}
+
+\CommentTok{# storage variables}
+\NormalTok{nvar <-}\StringTok{ }\KeywordTok{integer}\NormalTok{(nmod)}
+\NormalTok{sigma <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{rsq <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{adj_rsq <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{fstat <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{fstat_p <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{mse <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+\NormalTok{rmse <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(nmod)}
+
+\CommentTok{# loop through model summaries}
+\ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nmod) \{}
+\NormalTok{    nvar[j] <-}\StringTok{ }\NormalTok{modsums[[j]]}\OperatorTok{$}\NormalTok{df[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    sigma[j] <-}\StringTok{ }\NormalTok{modsums[[j]]}\OperatorTok{$}\NormalTok{sigma}
+\NormalTok{    rsq[j] <-}\StringTok{ }\NormalTok{modsums[[j]]}\OperatorTok{$}\NormalTok{r.squared}
+\NormalTok{    adj_rsq[j] <-}\StringTok{ }\NormalTok{modsums[[j]]}\OperatorTok{$}\NormalTok{adj.r.squared}
+\NormalTok{    fstat[j] <-}\StringTok{ }\NormalTok{modsums[[j]]}\OperatorTok{$}\NormalTok{fstatistic[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    fstat_p[j] <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{pf}\NormalTok{(modsums[[j]]}\OperatorTok{$}\NormalTok{fstatistic[}\DecValTok{1}\NormalTok{], modsums[[j]]}\OperatorTok{$}\NormalTok{fstatistic[}\DecValTok{2}\NormalTok{], }
+\NormalTok{                         modsums[[j]]}\OperatorTok{$}\NormalTok{fstatistic[}\DecValTok{3}\NormalTok{])}
+\NormalTok{    mse[j] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(modsums[[j]]}\OperatorTok{$}\NormalTok{residuals}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{    rmse[j] <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(mse[j])}
+\NormalTok{\}}
+
+\NormalTok{modnames <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"lm"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{nmod))}
+
+\CommentTok{# evaluation dataframe}
+\NormalTok{eval <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Model =}\NormalTok{ modnames, }
+                   \DataTypeTok{N_Vars =}\NormalTok{ nvar,}
+                   \DataTypeTok{Sigma =}\NormalTok{ sigma,}
+                   \DataTypeTok{R_Sq =}\NormalTok{ rsq,}
+                   \DataTypeTok{Adj_R_Sq =}\NormalTok{ adj_rsq,}
+                   \DataTypeTok{F_Stat =}\NormalTok{ fstat,}
+                   \DataTypeTok{F_P_Val =}\NormalTok{ fstat_p,}
+                   \DataTypeTok{MSE =}\NormalTok{ mse,}
+                   \DataTypeTok{RMSE =}\NormalTok{ rmse)}
+
+\KeywordTok{kable}\NormalTok{(eval, }\DataTypeTok{digits =} \DecValTok{3}\NormalTok{, }\DataTypeTok{align =} \StringTok{'c'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ccccccccc@{}}
+\toprule
+Model & N\_Vars & Sigma & R\_Sq & Adj\_R\_Sq & F\_Stat & F\_P\_Val & MSE
+& RMSE\tabularnewline
+\midrule
+\endhead
+lm1 & 16 & 12.540 & 0.363 & 0.359 & 85.935 & 0 & 156.134 &
+12.495\tabularnewline
+lm2 & 5 & 13.714 & 0.243 & 0.242 & 182.565 & 0 & 187.659 &
+13.699\tabularnewline
+lm3 & 7 & 13.785 & 0.236 & 0.234 & 116.894 & 0 & 189.444 &
+13.764\tabularnewline
+lm4 & 7 & 14.774 & 0.123 & 0.120 & 52.855 & 0 & 217.602 &
+14.751\tabularnewline
+\bottomrule
+\end{longtable}
+
+
+\end{document}
