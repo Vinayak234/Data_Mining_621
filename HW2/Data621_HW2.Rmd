@@ -4,13 +4,13 @@ author: "Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, S M, Vinayak Patel"
 date: "`r Sys.Date()`"
 subtitle: 'Homework 2: Critical Thinking Group 2'
 output:
-  pdf_document: default
-  word_document: default
   html_document:
     code_folding: hide
     df_print: paged
     highlight: tango
     theme: united
+  word_document: default
+  pdf_document: default
 editor_options:
   chunk_output_type: inline
 ---
@@ -299,6 +299,9 @@ result = my_curve(df)
 ROC_plot <-result[[1]]
 ROC_curve <-result[[2]]
 
+
+ROC_plot
+ROC_curve
 ```
 ## Step 11. 
 

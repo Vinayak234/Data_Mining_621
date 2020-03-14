@@ -12,7 +12,7 @@
 
 <meta name="author" content="Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, S M, Vinayak Patel" />
 
-<meta name="date" content="2020-03-12" />
+<meta name="date" content="2020-03-14" />
 
 <title>DATA 621 – Business Analytics and Data Mining</title>
 
@@ -1779,7 +1779,7 @@ summary {
 <h1 class="title toc-ignore">DATA 621 – Business Analytics and Data Mining</h1>
 <h3 class="subtitle">Homework 2: Critical Thinking Group 2</h3>
 <h4 class="author">Charls Joseph, Mary Anna Kivenson, Elina Azrilyan, S M, Vinayak Patel</h4>
-<h4 class="date">2020-03-12</h4>
+<h4 class="date">2020-03-14</h4>
 
 </div>
 
@@ -1788,12 +1788,156 @@ summary {
 <h2>Step 1.</h2>
 <p>Download the classification output data set.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/che10vek/Data621/master/classification-output-data.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">head</span>(df,<span class="dv">10</span>)</a></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["pregnant"],"name":[1],"type":["int"],"align":["right"]},{"label":["glucose"],"name":[2],"type":["int"],"align":["right"]},{"label":["diastolic"],"name":[3],"type":["int"],"align":["right"]},{"label":["skinfold"],"name":[4],"type":["int"],"align":["right"]},{"label":["insulin"],"name":[5],"type":["int"],"align":["right"]},{"label":["bmi"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["pedigree"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[8],"type":["int"],"align":["right"]},{"label":["class"],"name":[9],"type":["int"],"align":["right"]},{"label":["scored.class"],"name":[10],"type":["int"],"align":["right"]},{"label":["scored.probability"],"name":[11],"type":["dbl"],"align":["right"]}],"data":[{"1":"7","2":"124","3":"70","4":"33","5":"215","6":"25.5","7":"0.161","8":"37","9":"0","10":"0","11":"0.32845226","_rn_":"1"},{"1":"2","2":"122","3":"76","4":"27","5":"200","6":"35.9","7":"0.483","8":"26","9":"0","10":"0","11":"0.27319044","_rn_":"2"},{"1":"3","2":"107","3":"62","4":"13","5":"48","6":"22.9","7":"0.678","8":"23","9":"1","10":"0","11":"0.10966039","_rn_":"3"},{"1":"1","2":"91","3":"64","4":"24","5":"0","6":"29.2","7":"0.192","8":"21","9":"0","10":"0","11":"0.05599835","_rn_":"4"},{"1":"4","2":"83","3":"86","4":"19","5":"0","6":"29.3","7":"0.317","8":"34","9":"0","10":"0","11":"0.10049072","_rn_":"5"},{"1":"1","2":"100","3":"74","4":"12","5":"46","6":"19.5","7":"0.149","8":"28","9":"0","10":"0","11":"0.05515460","_rn_":"6"},{"1":"9","2":"89","3":"62","4":"0","5":"0","6":"22.5","7":"0.142","8":"33","9":"0","10":"0","11":"0.10711542","_rn_":"7"},{"1":"8","2":"120","3":"78","4":"0","5":"0","6":"25.0","7":"0.409","8":"64","9":"0","10":"0","11":"0.45994744","_rn_":"8"},{"1":"1","2":"79","3":"60","4":"42","5":"48","6":"43.5","7":"0.678","8":"23","9":"0","10":"0","11":"0.11702368","_rn_":"9"},{"1":"2","2":"123","3":"48","4":"32","5":"165","6":"42.1","7":"0.520","8":"26","9":"0","10":"0","11":"0.31536320","_rn_":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">kable</span>(<span class="kw">head</span>(df,<span class="dv">10</span>), <span class="dt">booktabs =</span> T)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">pregnant</th>
+<th align="right">glucose</th>
+<th align="right">diastolic</th>
+<th align="right">skinfold</th>
+<th align="right">insulin</th>
+<th align="right">bmi</th>
+<th align="right">pedigree</th>
+<th align="right">age</th>
+<th align="right">class</th>
+<th align="right">scored.class</th>
+<th align="right">scored.probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">124</td>
+<td align="right">70</td>
+<td align="right">33</td>
+<td align="right">215</td>
+<td align="right">25.5</td>
+<td align="right">0.161</td>
+<td align="right">37</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3284523</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">122</td>
+<td align="right">76</td>
+<td align="right">27</td>
+<td align="right">200</td>
+<td align="right">35.9</td>
+<td align="right">0.483</td>
+<td align="right">26</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.2731904</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">107</td>
+<td align="right">62</td>
+<td align="right">13</td>
+<td align="right">48</td>
+<td align="right">22.9</td>
+<td align="right">0.678</td>
+<td align="right">23</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0.1096604</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">91</td>
+<td align="right">64</td>
+<td align="right">24</td>
+<td align="right">0</td>
+<td align="right">29.2</td>
+<td align="right">0.192</td>
+<td align="right">21</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0559984</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">83</td>
+<td align="right">86</td>
+<td align="right">19</td>
+<td align="right">0</td>
+<td align="right">29.3</td>
+<td align="right">0.317</td>
+<td align="right">34</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.1004907</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">100</td>
+<td align="right">74</td>
+<td align="right">12</td>
+<td align="right">46</td>
+<td align="right">19.5</td>
+<td align="right">0.149</td>
+<td align="right">28</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0551546</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">89</td>
+<td align="right">62</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">22.5</td>
+<td align="right">0.142</td>
+<td align="right">33</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.1071154</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">120</td>
+<td align="right">78</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">25.0</td>
+<td align="right">0.409</td>
+<td align="right">64</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.4599474</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">79</td>
+<td align="right">60</td>
+<td align="right">42</td>
+<td align="right">48</td>
+<td align="right">43.5</td>
+<td align="right">0.678</td>
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.1170237</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">123</td>
+<td align="right">48</td>
+<td align="right">32</td>
+<td align="right">165</td>
+<td align="right">42.1</td>
+<td align="right">0.520</td>
+<td align="right">26</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3153632</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="step-2." class="section level2">
 <h2>Step 2.</h2>
@@ -1808,44 +1952,61 @@ summary {
 <p>Interpreting the output of this Confusion Matrix: The rows represent Actual Values, and the columns respesent Predicted Values. Let’s rename the rows and columns to to make it clearer.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">colnames</span>(cmtable) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Predicted No&quot;</span>, <span class="st">&quot;Predicted Yes&quot;</span>)</a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="kw">rownames</span>(cmtable) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Actual No&quot;</span>, <span class="st">&quot;Actual Yes&quot;</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3">cmtable</a></code></pre></div>
-<pre><code>##             
-##              Predicted No Predicted Yes
-##   Actual No           119             5
-##   Actual Yes           30            27</code></pre>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">kable</span>(cmtable, <span class="dt">booktabs =</span> T)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Predicted No</th>
+<th align="right">Predicted Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual No</td>
+<td align="right">119</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td>Actual Yes</td>
+<td align="right">30</td>
+<td align="right">27</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="step-3." class="section level2">
 <h2>Step 3.</h2>
 <p>Write a function that takes the data set as a dataframe, with actual and predicted classifications identified, and returns the accuracy of the predictions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">get_accuracy &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted)</a>
-<a class="sourceLine" id="cb6-2" title="2">{</a>
-<a class="sourceLine" id="cb6-3" title="3">  cmtable &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">table</span>(predicted, actual))</a>
-<a class="sourceLine" id="cb6-4" title="4">  TN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb6-5" title="5">  FN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb6-6" title="6">  FP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb6-7" title="7">  TP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="kw">return</span> ((TP <span class="op">+</span><span class="st"> </span>TN) <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FN <span class="op">+</span><span class="st"> </span>TP <span class="op">+</span><span class="st"> </span>FP))</a>
-<a class="sourceLine" id="cb6-9" title="9">}</a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="kw">get_accuracy</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">get_accuracy &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted)</a>
+<a class="sourceLine" id="cb5-2" title="2">{</a>
+<a class="sourceLine" id="cb5-3" title="3">  cmtable &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">table</span>(predicted, actual))</a>
+<a class="sourceLine" id="cb5-4" title="4">  TN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-5" title="5">  FN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb5-6" title="6">  FP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-7" title="7">  TP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb5-8" title="8">  <span class="kw">return</span> ((TP <span class="op">+</span><span class="st"> </span>TN) <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FN <span class="op">+</span><span class="st"> </span>TP <span class="op">+</span><span class="st"> </span>FP))</a>
+<a class="sourceLine" id="cb5-9" title="9">}</a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="kw">get_accuracy</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
 <pre><code>## [1] 0.8066298</code></pre>
 </div>
 <div id="step-4." class="section level2">
 <h2>Step 4.</h2>
 <p>Write a function that takes the data set as a dataframe, with actual and predicted classifications identified, and returns the classification error rate of the predictions.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">get_class_err_rate &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted)</a>
-<a class="sourceLine" id="cb8-2" title="2">{</a>
-<a class="sourceLine" id="cb8-3" title="3">  cmtable &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">table</span>(predicted, actual))</a>
-<a class="sourceLine" id="cb8-4" title="4">  TN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb8-5" title="5">  FN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb8-6" title="6">  FP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb8-7" title="7">  TP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb8-8" title="8">  <span class="kw">return</span> ((FP <span class="op">+</span><span class="st"> </span>FN) <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FN <span class="op">+</span><span class="st"> </span>TP <span class="op">+</span><span class="st"> </span>FP))</a>
-<a class="sourceLine" id="cb8-9" title="9">}</a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="kw">get_class_err_rate</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">get_class_err_rate &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted)</a>
+<a class="sourceLine" id="cb7-2" title="2">{</a>
+<a class="sourceLine" id="cb7-3" title="3">  cmtable &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">table</span>(predicted, actual))</a>
+<a class="sourceLine" id="cb7-4" title="4">  TN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb7-5" title="5">  FN &lt;-<span class="st"> </span>cmtable[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb7-6" title="6">  FP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb7-7" title="7">  TP &lt;-<span class="st"> </span>cmtable[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb7-8" title="8">  <span class="kw">return</span> ((FP <span class="op">+</span><span class="st"> </span>FN) <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FN <span class="op">+</span><span class="st"> </span>TP <span class="op">+</span><span class="st"> </span>FP))</a>
+<a class="sourceLine" id="cb7-9" title="9">}</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="kw">get_class_err_rate</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
 <pre><code>## [1] 0.1933702</code></pre>
 <p>Verify that you get an accuracy and an error rate that sums to one.</p>
 <p>Note: Accuracy is used when the dataset is balanced. It means the dataset has equal number of classes. if the dataset is imbalanced, we have to use other metrics like precision, recall and f1 score.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">get_accuracy</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class) <span class="op">+</span><span class="st"> </span><span class="kw">get_class_err_rate</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">get_accuracy</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class) <span class="op">+</span><span class="st"> </span><span class="kw">get_class_err_rate</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
 <div id="step-5." class="section level2">
@@ -1857,15 +2018,17 @@ summary {
 <p><span class="math inline">\(False Positive Rate = \frac{FP}{FP + TN}\)</span></p>
 <p>E.g of type1 error: Suppose a spam detection model predicted as spam, but in reality it is not. The impact of such event is customer is going to miss the email.</p>
 <p>In such use cases, we should focus on reducing false positive rate and we use the metric Precision to measure this. For precision, the more closer to 1, the better would be the tolerance of the classifer towards the false positive rate.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">get_precision &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted){</a>
-<a class="sourceLine" id="cb12-2" title="2">  cm &lt;-<span class="st"> </span><span class="kw">as.matrix.data.frame</span>(<span class="kw">table</span>(predicted, actual))</a>
-<a class="sourceLine" id="cb12-3" title="3">  TN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb12-4" title="4">  FN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb12-5" title="5">  FP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb12-6" title="6">  TP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb12-7" title="7">  <span class="kw">return</span> (TP <span class="op">/</span><span class="st"> </span>(TP <span class="op">+</span><span class="st"> </span>FP))</a>
-<a class="sourceLine" id="cb12-8" title="8">}</a>
-<a class="sourceLine" id="cb12-9" title="9">prec&lt;-<span class="st"> </span><span class="kw">get_precision</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">get_precision &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted){</a>
+<a class="sourceLine" id="cb11-2" title="2">  cm &lt;-<span class="st"> </span><span class="kw">as.matrix.data.frame</span>(<span class="kw">table</span>(predicted, actual))</a>
+<a class="sourceLine" id="cb11-3" title="3">  TN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb11-4" title="4">  FN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb11-5" title="5">  FP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb11-6" title="6">  TP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb11-7" title="7">  <span class="kw">return</span> (TP <span class="op">/</span><span class="st"> </span>(TP <span class="op">+</span><span class="st"> </span>FP))</a>
+<a class="sourceLine" id="cb11-8" title="8">}</a>
+<a class="sourceLine" id="cb11-9" title="9">prec&lt;-<span class="st"> </span><span class="kw">get_precision</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a>
+<a class="sourceLine" id="cb11-10" title="10">prec</a></code></pre></div>
+<pre><code>## [1] 0.84375</code></pre>
 </div>
 <div id="step-6." class="section level2">
 <h2>Step 6.</h2>
@@ -1885,22 +2048,26 @@ summary {
 <a class="sourceLine" id="cb13-6" title="6">  TP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">2</span>]</a>
 <a class="sourceLine" id="cb13-7" title="7">  <span class="kw">return</span> (TP <span class="op">/</span><span class="st"> </span>(TP <span class="op">+</span><span class="st"> </span>FN))</a>
 <a class="sourceLine" id="cb13-8" title="8">}</a>
-<a class="sourceLine" id="cb13-9" title="9">recall &lt;-<span class="st"> </span><span class="kw">get_sensitivity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<a class="sourceLine" id="cb13-9" title="9"></a>
+<a class="sourceLine" id="cb13-10" title="10">recall &lt;-<span class="st"> </span><span class="kw">get_sensitivity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a>
+<a class="sourceLine" id="cb13-11" title="11">recall</a></code></pre></div>
+<pre><code>## [1] 0.4736842</code></pre>
 </div>
 <div id="step-7." class="section level2">
 <h2>Step 7.</h2>
 <p>Question 7 - Specficity</p>
 <p><span class="math inline">\(Specficity = \frac{TN}{TN + FP}\)</span></p>
 <p>Write a function that takes the data set as a dataframe, with actual and predicted classifications identified, and returns the specificity of the predictions.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">get_specficity &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted){</a>
-<a class="sourceLine" id="cb14-2" title="2">  cm &lt;-<span class="st"> </span><span class="kw">as.matrix.data.frame</span>(<span class="kw">table</span>(predicted, actual))</a>
-<a class="sourceLine" id="cb14-3" title="3">  TN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb14-4" title="4">  FN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb14-5" title="5">  FP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb14-6" title="6">  TP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb14-7" title="7">  <span class="kw">return</span> (TN <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FP))</a>
-<a class="sourceLine" id="cb14-8" title="8">}</a>
-<a class="sourceLine" id="cb14-9" title="9"><span class="kw">get_specficity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">get_specficity &lt;-<span class="st"> </span><span class="cf">function</span>(actual, predicted){</a>
+<a class="sourceLine" id="cb15-2" title="2">  cm &lt;-<span class="st"> </span><span class="kw">as.matrix.data.frame</span>(<span class="kw">table</span>(predicted, actual))</a>
+<a class="sourceLine" id="cb15-3" title="3">  TN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb15-4" title="4">  FN &lt;-<span class="st"> </span>cm[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb15-5" title="5">  FP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb15-6" title="6">  TP &lt;-<span class="st"> </span>cm[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb15-7" title="7">  <span class="kw">return</span> (TN <span class="op">/</span><span class="st"> </span>(TN <span class="op">+</span><span class="st"> </span>FP))</a>
+<a class="sourceLine" id="cb15-8" title="8">}</a>
+<a class="sourceLine" id="cb15-9" title="9"></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="kw">get_specficity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class)</a></code></pre></div>
 <pre><code>## [1] 0.9596774</code></pre>
 </div>
 <div id="step-8." class="section level2">
@@ -1908,11 +2075,11 @@ summary {
 <p>Question 8 - F1 Score</p>
 <p><span class="math inline">\(F1Score = \frac{2* precision * Sensitivity}{precision + Sensitivity}\)</span></p>
 <p>Write a function that takes the data set as a dataframe, with actual and predicted classifications identified, and returns the F1 score of the predictions.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">get_f1score &lt;-<span class="st"> </span><span class="cf">function</span>(prec, recall){</a>
-<a class="sourceLine" id="cb16-2" title="2">  </a>
-<a class="sourceLine" id="cb16-3" title="3">  <span class="kw">return</span> (<span class="dv">2</span><span class="op">*</span><span class="st"> </span>prec <span class="op">*</span><span class="st"> </span>recall<span class="op">/</span><span class="st"> </span>(prec <span class="op">+</span><span class="st"> </span>recall))</a>
-<a class="sourceLine" id="cb16-4" title="4">}</a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="kw">get_f1score</span>(prec, recall)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">get_f1score &lt;-<span class="st"> </span><span class="cf">function</span>(prec, recall){</a>
+<a class="sourceLine" id="cb17-2" title="2">  <span class="kw">return</span> (<span class="dv">2</span><span class="op">*</span><span class="st"> </span>prec <span class="op">*</span><span class="st"> </span>recall<span class="op">/</span><span class="st"> </span>(prec <span class="op">+</span><span class="st"> </span>recall))</a>
+<a class="sourceLine" id="cb17-3" title="3">}</a>
+<a class="sourceLine" id="cb17-4" title="4"></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="kw">get_f1score</span>(prec, recall)</a></code></pre></div>
 <pre><code>## [1] 0.6067416</code></pre>
 </div>
 <div id="step-9" class="section level2">
@@ -1937,6 +2104,100 @@ summary {
 <div id="step-10" class="section level2">
 <h2>Step 10</h2>
 <p>Question 10: Write a function that generates an ROC curve from a data set with a true classification column (class in our example) and a probability column (scored.probability in our example). Your function should return a list that includes the plot of the ROC curve and a vector that contains the calculated area under the curve (AUC). Note that I recommend using a sequence of thresholds ranging from 0 to 1 at 0.01 intervals</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">#ROC Curve</span></a>
+<a class="sourceLine" id="cb19-3" title="3">my_curve &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb19-4" title="4">  thresholds &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb19-5" title="5">  X &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb19-6" title="6">  Y &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb19-7" title="7">  </a>
+<a class="sourceLine" id="cb19-8" title="8">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(thresholds)){</a>
+<a class="sourceLine" id="cb19-9" title="9">    scored_class &lt;-<span class="st"> </span><span class="kw">ifelse</span>(data<span class="op">$</span>scored.probability <span class="op">&gt;=</span><span class="st"> </span>thresholds[i], <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb19-10" title="10">    cur_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">scored.class =</span> scored_class, <span class="dt">class =</span> data<span class="op">$</span>class)</a>
+<a class="sourceLine" id="cb19-11" title="11">    df_table &lt;-<span class="st"> </span><span class="kw">with</span>(cur_df, <span class="kw">table</span>(scored.class, class))</a>
+<a class="sourceLine" id="cb19-12" title="12">    X[i] &lt;-<span class="st"> </span>(df_table[<span class="dv">4</span>])<span class="op">/</span>(df_table[<span class="dv">4</span>] <span class="op">+</span><span class="st"> </span>df_table[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb19-13" title="13">    Y[i]&lt;-<span class="st"> </span>(df_table[<span class="dv">2</span>]<span class="op">/</span>(df_table[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>df_table[<span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb19-14" title="14">  }</a>
+<a class="sourceLine" id="cb19-15" title="15">  </a>
+<a class="sourceLine" id="cb19-16" title="16">  plot_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">TRUE_POSITIVE =</span> X, <span class="dt">FALSE_POSITIVE =</span> Y)  </a>
+<a class="sourceLine" id="cb19-17" title="17">  <span class="co"># In order to roughly calculate the area under the curve, we must remove the NA values</span></a>
+<a class="sourceLine" id="cb19-18" title="18">  plot_df &lt;-<span class="st"> </span><span class="kw">na.omit</span>(plot_df)</a>
+<a class="sourceLine" id="cb19-19" title="19">  </a>
+<a class="sourceLine" id="cb19-20" title="20">  ROC_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot_df, <span class="kw">aes</span>(<span class="dt">x=</span>FALSE_POSITIVE, <span class="dt">y=</span>TRUE_POSITIVE)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-21" title="21"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">col=</span><span class="kw">rgb</span>(<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.1</span>,<span class="fl">0.7</span>) , <span class="dt">lwd=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-22" title="22"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-23" title="23"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;ROC Plot&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;False Positive Rate&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;True Positive Rate&quot;</span>)</a>
+<a class="sourceLine" id="cb19-24" title="24">  </a>
+<a class="sourceLine" id="cb19-25" title="25">  <span class="co"># Now to calculate the AUC </span></a>
+<a class="sourceLine" id="cb19-26" title="26">  x &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">diff</span>(plot_df<span class="op">$</span>FALSE_POSITIVE))</a>
+<a class="sourceLine" id="cb19-27" title="27">  y &lt;-<span class="st"> </span>plot_df<span class="op">$</span>TRUE_POSITIVE</a>
+<a class="sourceLine" id="cb19-28" title="28">  </a>
+<a class="sourceLine" id="cb19-29" title="29">  area_under_curve &lt;-<span class="st"> </span><span class="kw">sum</span>(x<span class="op">*</span>y)</a>
+<a class="sourceLine" id="cb19-30" title="30">  </a>
+<a class="sourceLine" id="cb19-31" title="31">  ROC_plot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot_df, <span class="kw">aes</span>(<span class="dt">x=</span>FALSE_POSITIVE, <span class="dt">y=</span>TRUE_POSITIVE)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-32" title="32"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;ROC Curve&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-33" title="33"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-34" title="34"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-35" title="35"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-36" title="36"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;False Positive Rate&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-37" title="37"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;True Positive Rate&#39;</span>)</a>
+<a class="sourceLine" id="cb19-38" title="38"></a>
+<a class="sourceLine" id="cb19-39" title="39">  <span class="kw">return</span>(<span class="kw">list</span>(ROC_plot, area_under_curve))</a>
+<a class="sourceLine" id="cb19-40" title="40">}</a>
+<a class="sourceLine" id="cb19-41" title="41"></a>
+<a class="sourceLine" id="cb19-42" title="42">result =<span class="st"> </span><span class="kw">my_curve</span>(df)</a>
+<a class="sourceLine" id="cb19-43" title="43">ROC_plot &lt;-result[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb19-44" title="44">ROC_curve &lt;-result[[<span class="dv">2</span>]]</a>
+<a class="sourceLine" id="cb19-45" title="45"></a>
+<a class="sourceLine" id="cb19-46" title="46"></a>
+<a class="sourceLine" id="cb19-47" title="47">ROC_plot</a></code></pre></div>
+<p><img src="data:image/png;base64,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" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">ROC_curve</a></code></pre></div>
+<pre><code>## [1] 0.8299377</code></pre>
+</div>
+<div id="step-11." class="section level2">
+<h2>Step 11.</h2>
+<p>Use your created R functions and the provided classification output data set to produce all of the classification metrics discussed above.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">my_Classification &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">&#39;Accuracy&#39;</span> =<span class="st"> </span><span class="kw">get_accuracy</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class), </a>
+<a class="sourceLine" id="cb22-2" title="2">                   <span class="st">&#39;Error rate&#39;</span> =<span class="st"> </span><span class="kw">get_class_err_rate</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class),</a>
+<a class="sourceLine" id="cb22-3" title="3">                   <span class="st">&#39;Precision&#39;</span> =<span class="st"> </span><span class="kw">get_precision</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class),</a>
+<a class="sourceLine" id="cb22-4" title="4">                   <span class="st">&#39;Sensitivity&#39;</span> =<span class="st"> </span><span class="kw">get_sensitivity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class),</a>
+<a class="sourceLine" id="cb22-5" title="5">                   <span class="st">&#39;Specficity&#39;</span> =<span class="st"> </span><span class="kw">get_specficity</span>(df<span class="op">$</span>class, df<span class="op">$</span>scored.class),</a>
+<a class="sourceLine" id="cb22-6" title="6">                   <span class="st">&#39;F_Score&#39;</span> =<span class="st"> </span><span class="kw">get_f1score</span>(prec, recall)</a>
+<a class="sourceLine" id="cb22-7" title="7">                   )</a>
+<a class="sourceLine" id="cb22-8" title="8"></a>
+<a class="sourceLine" id="cb22-9" title="9"></a>
+<a class="sourceLine" id="cb22-10" title="10"><span class="kw">kable</span>(my_Classification, <span class="dt">booktabs =</span> T)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Accuracy</th>
+<th align="right">Error.rate</th>
+<th align="right">Precision</th>
+<th align="right">Sensitivity</th>
+<th align="right">Specficity</th>
+<th align="right">F_Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.8066298</td>
+<td align="right">0.1933702</td>
+<td align="right">0.84375</td>
+<td align="right">0.4736842</td>
+<td align="right">0.9596774</td>
+<td align="right">0.6067416</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="step-12." class="section level2">
+<h2>Step 12.</h2>
+<p>Investigate the caret package. In particular, consider the functions confusionMatrix, sensitivity, and specificity. Apply the functions to the data set.</p>
+</div>
+<div id="step-13." class="section level2">
+<h2>Step 13.</h2>
+<p>Investigate the pROC package. Use it to generate an ROC curve for the data set. How do the results compare with your own functions?</p>
 </div>
 
 
