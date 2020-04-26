@@ -1,0 +1,98 @@
+---
+title: "DATA 621 – Business Analytics and Data Mining"
+author: "VP"
+date: "`r Sys.Date()`"
+subtitle: 'Homework 4: Critical Thinking Group 2'
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+    highlight: tango
+    theme: united
+  word_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+## load library
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("class")) install.packages("class") 
+if (!require("knitr")) install.packages("knitr")
+if (!require("pROC")) install.packages("pROC") 
+if (!require("tidyverse")) install.packages("tidyverse") 
+if (!require("gridExtra")) install.packages("gridExtra")
+if (!require("corrplot")) install.packages("corrplot") 
+
+knitr::opts_chunk$set(echo = TRUE)
+options("scipen" = 10)
+
+library(VIM)
+library(caret)
+library(mice)
+```
+
+
+#### Read Data
+
+Here, we read the training dataset into a dataframe.
+
+```{r}
+insurance_tf_train <- read.csv( "https://raw.githubusercontent.com/charlsjoseph/Data621/master/Data621-Assignment4/insurance_tf_train.csv")[-1]
+insurance_tf_test <- read.csv("https://raw.githubusercontent.com/charlsjoseph/Data621/master/Data621-Assignment4/insurance_tf_test.csv")[-1]
+insurance_tf_eval <- read.csv( "https://raw.githubusercontent.com/charlsjoseph/Data621/master/Data621-Assignment4/insurance_tf_eval.csv")
+```
+
+
+## Linear logistic regression
+
+### Model 1 - All binary variables with TARGET_FLAG. 
+
+```{r m1, echo=FALSE, eval=TRUE}
+model1 <- lm(TARGET_FLAG ~.  ,data=insurance_tf_train, family= "binomial")
+
+summary(model1)
+```
+
+### Model 2 - All significant variables with TARGET_FLAG. 
+
+```{r m2, echo=FALSE, eval=TRUE}
+model2 <- lm(TARGET_FLAG ~ . -AGE -HOMEKIDS -INCOME -EDUCATION..High.School-JOB.Doctor-JOB.Manager-BLUEBOOK-CAR_TYPE.Van-RED_CAR.yes-CAR_AGE ,data=insurance_tf_train, family=binomial())
+
+summary(model2)
+```
+
+```{r m3, echo=FALSE, eval=TRUE}
+model3 <- lm(TARGET_FLAG ~ . -AGE -HOMEKIDS -INCOME -EDUCATION..High.School-JOB.Doctor-JOB.Manager-BLUEBOOK-CAR_TYPE.Van-RED_CAR.yes-CAR_AGE-SEX.z_F-EDUCATION.PhD-CLM_FREQ-EDUCATION.Masters-JOB.Lawyer ,data=insurance_tf_train, family= "binomial")
+
+summary(model3)
+```
+
+## Selection Model
+
+```{r fig1, fig.height = 4, fig.width = 6, fig.align= 'center'}
+roc(TARGET_FLAG~model1$fitted.values, data = insurance_tf_train,plot = TRUE, main = "ROC CURVE", col= "blue",
+    percent=TRUE,
+    ci = TRUE, # compute AUC (of AUC by default)
+    print.auc = TRUE)
+
+```
+```{r fig2, fig.height = 4, fig.width = 6, fig.align= 'center'}
+roc(TARGET_FLAG~model2$fitted.values, data = insurance_tf_train,plot = TRUE, main = "ROC CURVE", col= "blue",
+    percent=TRUE,
+    ci = TRUE, # compute AUC (of AUC by default)
+    print.auc = TRUE)
+```
+
+```{r fig3, fig.height = 4, fig.width = 6, fig.align= 'center'}
+roc(TARGET_FLAG~model3$fitted.values, data = insurance_tf_train,plot = TRUE, main = "ROC CURVE", col= "blue",
+    percent=TRUE,
+    ci = TRUE, # compute AUC (of AUC by default)
+    print.auc = TRUE)
+```
+
+
+
+Based the fact that the area under the curve for model 2 and model 3 are virtually identical. I am going to select model2 Because Auc value is little bit higher than other.
+
